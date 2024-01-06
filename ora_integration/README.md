@@ -11,3 +11,9 @@
 - `sudo apt install can-utils`
 - To generate random messages: `cangen vcan0`
 - To display them: `candump vcan0`
+
+## To set up the VulCAN for the computer
+
+- `sudo slcand -o -c -s6 /dev/ttyACM0 can0`
+- `sudo ifconfig can0 up`
+- `sudo ifconfig can0 txqueuelen 1000`
