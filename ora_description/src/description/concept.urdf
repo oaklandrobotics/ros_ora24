@@ -64,7 +64,8 @@
       </geometry>
     </collision>
 
-    <xacro:box_inertia m="15" w="${box_width}" d="${box_length}" h="${box_height}"/>
+    <!-- yes, these are switched around on purpose -->
+    <xacro:box_inertia m="15" w="${box_length}" d="${box_height}" h="${box_width}"/>
   </link>
 
   <!-- Motored Wheels -->
@@ -268,6 +269,7 @@
     </sensor>
   </gazebo>
 
+  <!-- Gazebo Diff Drive -->
   <gazebo>
     <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
       <ros>
