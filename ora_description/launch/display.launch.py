@@ -6,7 +6,9 @@ import os
 def generate_launch_description():
     pkg_share = launch_ros.substitutions.FindPackageShare(package='ora_description').find('ora_description')
     default_model_path = os.path.join(pkg_share, 'src/description/concept.urdf')
-    default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz')
+    #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz') #this is the default one
+    default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_scan.rviz')
+    world_path = os.path.join(pkg_share, 'world/my_world.sdf')
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
@@ -34,7 +36,7 @@ def generate_launch_description():
     spawn_entity = launch_ros.actions.Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
-        arguments=['-entity', 'concept', '-topic', 'robot_description'],
+        arguments=['-entity', 'concept', '-topic', 'robot_description', '-timeout', '60'],
         output='screen',
     )
     robot_localization_node = launch_ros.actions.Node(
@@ -44,6 +46,17 @@ def generate_launch_description():
         output='screen',
         parameters=[os.path.join(pkg_share, 'config/ekf.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
+    depthimage_to_laserscan_node = launch_ros.actions.Node(
+        package='depthimage_to_laserscan',
+        executable='depthimage_to_laserscan_node',
+        name='depthimage_to_laserscan_node',
+        output='screen',
+        parameters=[os.path.join(pkg_share, 'config/di2ls.yaml')],
+        remappings=[
+            ('/depth_camera_info', '/depth_camera/depth/camera_info'),
+            ('/depth', '/depth_camera/depth/image_raw')
+            ],
+    )
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name='model', default_value=default_model_path,
@@ -52,7 +65,8 @@ def generate_launch_description():
                                             description='Absolute path to rviz config file'),
         launch.actions.DeclareLaunchArgument(name='use_sim_time', default_value='True',
                                             description='Flag to enable use_sim_time'),
-        launch.actions.ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so'], output='screen'),
+        launch.actions.ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
+        depthimage_to_laserscan_node,
         joint_state_publisher_node,
         robot_state_publisher_node,
         spawn_entity,
