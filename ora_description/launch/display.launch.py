@@ -67,7 +67,7 @@ def generate_launch_description():
                                             description='Flag to enable use_sim_time'),
         launch.actions.ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
         depthimage_to_laserscan_node,
-        joint_state_publisher_node,
+        #joint_state_publisher_node, #disable this since joints are controlled by gazebo instead of this
         robot_state_publisher_node,
         spawn_entity,
         robot_localization_node,

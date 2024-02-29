@@ -324,8 +324,9 @@
       <wheel_diameter>0.2</wheel_diameter>
 
       <!-- limits -->
-      <max_wheel_torque>20</max_wheel_torque>
-      <max_wheel_acceleration>1.0</max_wheel_acceleration>
+      <max_wheel_torque>50</max_wheel_torque>
+      <max_wheel_acceleration>5.0</max_wheel_acceleration>
+      <!-- This probably needs to be modified? no idea what units-->
 
       <!-- output -->
       <publish_odom>true</publish_odom>

@@ -16,7 +16,7 @@ ros-$ROS_DISTRO-xacro \
 ros-$ROS_DISTRO-gazebo-ros-pkgs \
 ros-$ROS_DISTRO-robot-localization \
 ros-$ROS_DISTRO-slam-toolbox \
-ros-$ROS_DISTRO-depthcloud-to-laserscan
+ros-$ROS_DISTRO-depthimage-to-laserscan
 ```
 
 To make the boi go:
