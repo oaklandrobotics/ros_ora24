@@ -28,3 +28,5 @@ ros2 topic pub --once /demo/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.0, y
 #### random notes
 
 `footprint: "[ [0.36, 0.26], [0.36, -0.26], [-0.36, -0.26], [-0.36, 0.26] ]"`
+
+`robot_radius: 0.5`
