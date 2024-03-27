@@ -181,6 +181,23 @@
 
   <link name="camera_depth_frame"/>
 
+  <!-- GPS -->
+  <link name="gps_link">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <xacro:box_inertia m="0.1" w="0.1" d="0.1" h="0.1"/>
+  </link>
+
   <!-- Joints -->
 
   <!-- Motored Wheel Joints -->
@@ -230,6 +247,13 @@
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="camera_link"/>
     <child link="camera_depth_frame"/>
+  </joint>
+
+  <!-- GPS Joint -->
+  <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps_link"/>
+    <origin xyz="0 0 0.01"/>
   </joint>
 
   <!-- Robot Base Joint -->
@@ -374,6 +398,37 @@
         <focalLength>0</focalLength>
         <hackBaseline>0</hackBaseline>
       </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Gazebo GPS -->
+  <gazebo reference="gps_link">
+    <sensor name="tb3_gps" type="gps">
+      <plugin name="my_gps_plugin" filename="libgazebo_ros_gps_sensor.so">
+        <ros>
+          <namespace>/demo</namespace>
+          <remapping>~/out:=/gps/fix</remapping>
+        </ros>
+      </plugin>
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <!-- <pose>0 0 0 0 0 0</pose> -->
+      <gps>
+        <position_sensing>
+          <horizontal>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </horizontal>
+          <vertical>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </vertical>
+        </position_sensing>
+      </gps>
     </sensor>
   </gazebo>
 </robot>
