@@ -6,8 +6,9 @@ import os
 def generate_launch_description():
     pkg_share = launch_ros.substitutions.FindPackageShare(package='ora_description').find('ora_description')
     default_model_path = os.path.join(pkg_share, 'src/description/concept.urdf')
-    #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz') #this is the default one
-    default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_scan.rviz')
+    default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz') #this is the default one
+    #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_maps.rviz')
+    #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_scan.rviz')
     world_path = os.path.join(pkg_share, 'world/my_world.sdf')
 
     robot_state_publisher_node = launch_ros.actions.Node(

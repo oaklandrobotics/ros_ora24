@@ -30,3 +30,6 @@ ros2 topic pub --once /demo/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.0, y
 `footprint: "[ [0.36, 0.26], [0.36, -0.26], [-0.36, -0.26], [-0.36, 0.26] ]"`
 
 `robot_radius: 0.5`
+
+`ros2 run tf2_ros static_transform_publisher 2 2 0 0 0 0 map odom --ros-args --remap use_sim_time:=True`
+`ros2 launch nav2_bringup navigation_launch.py params_file:=/home/dan/ros2_ws/src/ora_description/config/nav2_params.yaml use_sim_time:=True`
