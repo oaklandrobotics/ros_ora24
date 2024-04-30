@@ -3,9 +3,13 @@
 <package format="3">
   <name>line_perception</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Package for finding lines on IGVC course and returning filtered point cloud</description>
   <maintainer email="dmocnik@oakland.edu">dan</maintainer>
   <license>TODO: License declaration</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
