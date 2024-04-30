@@ -9,7 +9,7 @@ def generate_launch_description():
     default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz') #this is the default one
     #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_maps.rviz')
     #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_scan.rviz')
-    world_path = os.path.join(pkg_share, 'world/my_world.sdf')
+    world_path = os.path.join(pkg_share, 'world/sim_world.sdf')
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
@@ -67,7 +67,7 @@ def generate_launch_description():
         launch.actions.DeclareLaunchArgument(name='use_sim_time', default_value='True',
                                             description='Flag to enable use_sim_time'),
         launch.actions.ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
-        depthimage_to_laserscan_node,
+        #depthimage_to_laserscan_node,
         #joint_state_publisher_node, #disable this since joints are controlled by gazebo instead of this
         robot_state_publisher_node,
         spawn_entity,

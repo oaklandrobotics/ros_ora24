@@ -351,7 +351,7 @@
       <!-- limits -->
       <max_wheel_torque>50</max_wheel_torque>
       <max_wheel_acceleration>5.0</max_wheel_acceleration>
-      <!-- This probably needs to be modified? no idea what units-->
+      <!-- TODO This probably needs to be modified? no idea what units-->
 
       <!-- output -->
       <publish_odom>true</publish_odom>
@@ -417,13 +417,13 @@
           <horizontal>
             <noise type="gaussian">
               <mean>0.0</mean>
-              <stddev>0.01</stddev>
+              <stddev>0.005</stddev>
             </noise>
           </horizontal>
           <vertical>
             <noise type="gaussian">
               <mean>0.0</mean>
-              <stddev>0.01</stddev>
+              <stddev>0.005</stddev>
             </noise>
           </vertical>
         </position_sensing>
