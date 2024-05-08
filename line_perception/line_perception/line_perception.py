@@ -7,8 +7,8 @@ import cv2
 import numpy as np
 
 UPPER_BOUND = 255
-LOWER_BOUND = 120
-KERNEL = np.ones((5, 5), np.uint8)
+LOWER_BOUND = 110
+#KERNEL = np.ones((5, 5), np.uint8)
 
 
 class LinePerception(Node):
@@ -26,30 +26,19 @@ class LinePerception(Node):
         cv_raw = self.bridge.imgmsg_to_cv2(img_raw, 'bgr8')
         cv_depth = self.bridge.imgmsg_to_cv2(img_depth, '32FC1')
 
+        #Black and white
+        bw = cv2.cvtColor(cv_raw, cv2.COLOR_BGR2GRAY)
+
         #Masking
         mask = np.zeros(cv_raw.shape[:2], dtype=np.uint8)
-        cv2.rectangle(mask, (0, 240), (1280, 720), 255, -1)
-        masked_image = cv2.bitwise_and(cv_raw, cv_raw, mask=mask)
-        #cv2.imshow('hi', masked_image)
-
-        #Black and white
-        bw = cv2.cvtColor(masked_image, cv2.COLOR_BGR2GRAY)
-
-        #TODO clean up the processing pipeline
-        #Erosion
-        erosion = cv2.erode(bw, KERNEL, iterations=1)
-
-        #Dilation
-        dilate = cv2.dilate(erosion, KERNEL, iterations=1)
-
-        #Thresholding
-        _, threshold = cv2.threshold(dilate, LOWER_BOUND, UPPER_BOUND, cv2.THRESH_BINARY)
+        cv2.rectangle(mask, (0, 360), (1280, 720), 255, -1) #adjust this for the real robot
+        masked_image = cv2.bitwise_and(bw, bw, mask=mask)
 
         #Gaussian Blur
-        blur = cv2.GaussianBlur(threshold, (5, 5), 0)
+        blur = cv2.GaussianBlur(masked_image, (5, 5), 0)
 
-        #Canny edge detection
-        edges = cv2.Canny(blur, 50, 150)
+        #Thresholding
+        _, threshold = cv2.threshold(blur, LOWER_BOUND, UPPER_BOUND, cv2.THRESH_BINARY)
 
         #use threshold as a mask for the depth image
         masked = cv2.bitwise_and(cv_depth, cv_depth, mask=threshold)
