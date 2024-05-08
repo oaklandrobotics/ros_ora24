@@ -14,6 +14,7 @@ LOWER_BOUND = 110
 class LinePerception(Node):
     def __init__(self):
         super().__init__('line_perception')
+        self.declare_parameter('show_cv', rclpy.Parameter.Type.BOOL)
         self.bridge = CvBridge()
         self.img_raw_sub = message_filters.Subscriber(self, Image, '/depth_camera/image_raw')
         self.img_depth_sub = message_filters.Subscriber(self, Image, '/depth_camera/depth/image_raw')
@@ -21,6 +22,9 @@ class LinePerception(Node):
         self.ts = message_filters.ApproximateTimeSynchronizer((self.img_raw_sub, self.img_depth_sub), 10, slop=0.1)
         self.ts.registerCallback(self.img_callback)
         self.get_logger().info('Hello from line_perception')
+        self.show_cv = self.get_parameter('show_cv').value
+        if self.show_cv == True:
+            self.get_logger().info('show_cv is True')
 
     def img_callback(self, img_raw: Image, img_depth: Image):
         cv_raw = self.bridge.imgmsg_to_cv2(img_raw, 'bgr8')
@@ -45,16 +49,15 @@ class LinePerception(Node):
 
         #Display the things
         SCALE = 2
-        height, width = cv_raw.shape[0:2]
-        raw_resized = cv2.resize(cv_raw, (int(width / SCALE), int(height / SCALE)))
-        masked_resized = cv2.resize(masked, (int(width / SCALE), int(height / SCALE)))
-        masked_resized = cv2.cvtColor(masked_resized, cv2.COLOR_GRAY2BGR)
-        #cv2.imshow('raw', raw_resized)
-        #cv2.imshow('masked', masked_resized)
-        #TODO display the images side by side in one window, seems to be a problem with the hconcat function
-        #stack = np.hstack((raw_resized, masked_resized))
-        #stack = cv2.hconcat([raw_resized, masked_resized])
-        #cv2.imshow('stack', stack)
+        if self.show_cv == True:
+            height, width = cv_raw.shape[0:2]
+            raw_resized = cv2.resize(cv_raw, (int(width / SCALE), int(height / SCALE)))
+            masked_normalized = cv2.normalize(masked, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            masked_color = cv2.cvtColor(masked_normalized, cv2.COLOR_GRAY2BGR)
+            masked_resized = cv2.resize(masked_color, (int(width / SCALE), int(height / SCALE)))
+
+            stack = cv2.hconcat([raw_resized, masked_resized])
+            cv2.imshow('stack', stack)
         cv2.waitKey(1)
 
         #Publish the filtered image
