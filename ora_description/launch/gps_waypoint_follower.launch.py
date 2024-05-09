@@ -29,6 +29,7 @@ def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory("nav2_bringup")
     gps_wpf_dir = get_package_share_directory("ora_description")
+    lp_dir = get_package_share_directory("line_perception")
     launch_dir = os.path.join(gps_wpf_dir, "launch")
     params_dir = os.path.join(gps_wpf_dir, "config")
     nav2_params = os.path.join(params_dir, "nav2_no_map_params.yaml")
@@ -82,6 +83,10 @@ def generate_launch_description():
         condition=IfCondition(use_mapviz),
     )
 
+    line_perception_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(lp_dir, "lines.launch.py"))
+    )
+
     # Create the launch description and populate
     ld = LaunchDescription()
 
@@ -100,5 +105,6 @@ def generate_launch_description():
     ld.add_action(rviz_cmd)
     ld.add_action(declare_use_mapviz_cmd)
     ld.add_action(mapviz_cmd)
+    ld.add_action(line_perception_cmd)
 
     return ld
