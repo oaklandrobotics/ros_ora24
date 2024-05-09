@@ -5,7 +5,7 @@ import os
 
 def generate_launch_description():
     pkg_share = launch_ros.substitutions.FindPackageShare(package='ora_description').find('ora_description')
-    default_model_path = os.path.join(pkg_share, 'src/description/concept.urdf')
+    default_model_path = os.path.join(pkg_share, 'src/description/horizon.urdf')
     default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz') #this is the default one
     #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_maps.rviz')
     #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_scan.rviz')
@@ -37,7 +37,7 @@ def generate_launch_description():
     spawn_entity = launch_ros.actions.Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
-        arguments=['-entity', 'concept', '-topic', 'robot_description', '-timeout', '60', '-x', '-14.547985', '-y', '0.642267', '-z', '0.150999', '-Y', '1.57'],
+        arguments=['-entity', 'horizon', '-topic', 'robot_description', '-timeout', '60', '-x', '-14.547985', '-y', '0.642267', '-z', '0.150999', '-Y', '1.57'],
         output='screen',
     )
     robot_localization_node = launch_ros.actions.Node(

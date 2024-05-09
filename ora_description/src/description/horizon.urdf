@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <!-- TODO -->
-<!-- update constaints/properties with the real dimensions later -->
 <!-- update masses in the inertia declarations -->
 <!-- Double-check box_inertia and make sure its correct -->
 <!-- Replace depth camera with actual ZED from SDK later-->
@@ -9,15 +8,17 @@
 <robot name="horizon" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Constraints -->
   <!-- m and kg-->
-  
-  <xacro:property name="box_length" value="0.6"/>
-  <xacro:property name="box_width" value="0.4"/>
-  <xacro:property name="box_height" value="0.2"/>
+  <!-- m = ft / 3.281 -->
+  <xacro:property name="box_length" value="${3/3.281}"/>
+  <xacro:property name="box_width" value="${2/3.281}"/>
+  <xacro:property name="box_height" value="${1/3.281}"/>
 
-  <xacro:property name="wheel_radius" value="0.1"/>
-  <xacro:property name="wheel_width" value="0.05"/>
+  <xacro:property name="tower_length" value="${2.5/3.281}"/>
 
-  <xacro:property name="caster_radius" value="0.05"/>
+  <xacro:property name="wheel_radius" value="${(4/12)/3.281}"/> <!-- 8 in. diameter -->
+  <xacro:property name="wheel_width" value="${(2/12)/3.281}"/>
+
+  <xacro:property name="caster_radius" value="${(1/12)/3.281}"/><!-- 2 in. diameter -->
 
   <!-- Intertia property macros  -->
   <xacro:macro name="box_inertia" params="m w h d">
@@ -67,6 +68,24 @@
 
     <!-- yes, these are switched around on purpose -->
     <xacro:box_inertia m="15" w="${box_length}" d="${box_height}" h="${box_width}"/>
+  </link>
+
+  <!-- Sensor Tower -->
+  <link name="sensor_tower">
+    <visual>
+      <geometry>
+        <box size="${(1/12)/3.281} ${(1/12)/3.281} ${tower_length}"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="${(1/12)/3.281} ${(1/12)/3.281} ${tower_length}"/>
+      </geometry>
+    </collision>
   </link>
 
   <!-- Motored Wheels -->
@@ -204,7 +223,7 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
-    <origin xyz="0 ${(box_width/2)+(wheel_width/2)} -0.051" rpy="${-pi/2} 0 0"/>
+    <origin xyz="0 ${(box_width/2)+(wheel_width/2)} ${-(box_height/4)-0.001}" rpy="${-pi/2} 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
@@ -212,7 +231,7 @@
     <parent link="base_link"/>
     <child link="right_wheel"/>
     <!-- Offset wheels slightly so only they are touching the ground -->
-    <origin xyz="0 ${(-box_width/2)+(-wheel_width/2)} -0.051" rpy="${-pi/2} 0 0"/>
+    <origin xyz="0 ${(-box_width/2)+(-wheel_width/2)} ${-(box_height/4)-0.001}" rpy="${-pi/2} 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
@@ -220,13 +239,13 @@
   <joint name="front_caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="front_caster"/>
-    <origin xyz="0.3 0 -0.1" rpy="0 0 0"/>
+    <origin xyz="${(box_length/2)-((1/12)/3.281)} 0 ${-box_height/2}" rpy="0 0 0"/>
   </joint>
 
   <joint name="rear_caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="rear_caster"/>
-    <origin xyz="-0.3 0 -0.1" rpy="0 0 0"/>
+    <origin xyz="${(-box_length/2)+((1/12)/3.281)} 0 ${-box_height/2}" rpy="0 0 0"/>
   </joint>
 
   <!-- IMU Joint -->
@@ -240,7 +259,7 @@
   <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
     <child link="camera_link"/>
-    <origin xyz="${(box_length/2)-(0.015/2)} 0 ${(box_height/2)+(0.022/2)}" rpy="0 0 0"/>
+    <origin xyz="${((1/12)/3.281)} 0 ${(tower_length-((3/12)/3.281))+(0.022/2)}" rpy="0 ${12*(pi/180)} 0"/>
   </joint>
 
   <joint name="camera_depth_joint" type="fixed">
@@ -253,7 +272,14 @@
   <joint name="gps_joint" type="fixed">
     <parent link="base_link"/>
     <child link="gps_link"/>
-    <origin xyz="0 0 0.01"/>
+    <origin xyz="0 0 ${tower_length}"/>
+  </joint>
+
+  <!-- Sensor Tower Joint -->
+  <joint name="sensor_tower_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="sensor_tower"/>
+    <origin xyz="0 0 ${tower_length/2}" rpy="0 0 0"/>
   </joint>
 
   <!-- Robot Base Joint -->
