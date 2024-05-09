@@ -108,15 +108,21 @@ controller_server:
       yaw_goal_tolerance: 0.25
     # DWB parameters
     FollowPath:
-      plugin: "dwb_core::DWBLocalPlanner"
+      plugin: "nav2_rotation_shim_controller::RotationShimController"
+      primary_controller: "dwb_core::DWBLocalPlanner"
+      angular_dist_threshold: 0.05
+      forward_sampling_distance: 0.1
+      rotate_to_heading_angular_vel: 1.8
+      max_angular_accel: 3.2
+      simulate_ahead_time: 1.0
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.5
+      max_vel_x: 10.0
       max_vel_y: 0.0
       max_vel_theta: 1.0
       min_speed_xy: 0.0
-      max_speed_xy: 0.5
+      max_speed_xy: 10.0
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
@@ -226,9 +232,9 @@ global_costmap:
       # When using GPS navigation you will potentially traverse huge environments which are not practical to
       # fit on a big static costmap. Thus it is recommended to use a rolling global costmap large enough to 
       # contain each pair of successive waypoints. See: https://github.com/ros-planning/navigation2/issues/2174
-      rolling_window: True
-      width: 50
-      height: 50
+      rolling_window: true
+      width: 100
+      height: 100
       track_unknown_space: true
       max_obstacle_height: 2.0
       # no static map
@@ -272,8 +278,8 @@ global_costmap:
           obstacle_min_range: 0.05
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        cost_scaling_factor: 1.0
+        inflation_radius: 1.0
 
       always_send_full_costmap: True
 

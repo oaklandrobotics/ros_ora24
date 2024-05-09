@@ -415,16 +415,16 @@
       <gps>
         <position_sensing>
           <horizontal>
-            <noise type="gaussian">
+            <!-- <noise type="gaussian">
               <mean>0.0</mean>
               <stddev>0.005</stddev>
-            </noise>
+            </noise> -->
           </horizontal>
           <vertical>
-            <noise type="gaussian">
+            <!-- <noise type="gaussian">
               <mean>0.0</mean>
               <stddev>0.005</stddev>
-            </noise>
+            </noise> -->
           </vertical>
         </position_sensing>
       </gps>

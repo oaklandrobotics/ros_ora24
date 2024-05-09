@@ -37,7 +37,7 @@ def generate_launch_description():
     spawn_entity = launch_ros.actions.Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
-        arguments=['-entity', 'concept', '-topic', 'robot_description', '-timeout', '60'],
+        arguments=['-entity', 'concept', '-topic', 'robot_description', '-timeout', '60', '-x', '-14.547985', '-y', '0.642267', '-z', '0.150999', '-Y', '1.57'],
         output='screen',
     )
     robot_localization_node = launch_ros.actions.Node(
