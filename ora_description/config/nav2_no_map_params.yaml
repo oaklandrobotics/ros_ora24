@@ -199,6 +199,17 @@ local_costmap:
           raytrace_min_range: 0.05
           obstacle_max_range: 5.0
           obstacle_min_range: 0.05
+        #pointcloud_lines: #Not sure if this is needed for local
+        #  topic: /lines
+        #  data_type: "PointCloud2"
+        #  marking: True
+        #  clearing: True
+        #  max_obstacle_height: 1.0
+        #  min_obstacle_height: -1.0
+        #  raytrace_max_range: 5.0
+        #  raytrace_min_range: 0.05
+        #  obstacle_max_range: 5.0
+        #  obstacle_min_range: 0.05
       always_send_full_costmap: True
 
 # GPS WPF CHANGE: Remove static layer
@@ -221,31 +232,40 @@ global_costmap:
       track_unknown_space: true
       max_obstacle_height: 2.0
       # no static map
-      plugins: ["obstacle_layer", "inflation_layer"]
+      # obstacle layer: regular point cloud from depth camera, for detecting regular obstacles
+      # voxel layer: "filtered" point cloud from depth camera, for detecting lines by creating voxels of lines near ground plane
+      plugins: ["obstacle_layer", "voxel_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        #observation_sources: scan
-        #scan:
-        #  topic: /scan
-        #  max_obstacle_height: 2.0
-        #  clearing: True
-        #  marking: True
-        #  data_type: "LaserScan"
-        #  raytrace_max_range: 3.0
-        #  raytrace_min_range: 0.0
-        #  obstacle_max_range: 2.5
-        #  obstacle_min_range: 0.0
-        #  # outdoors there will probably be more inf points
-        #  inf_is_valid: true
         observation_sources: pointcloud
         pointcloud:
           topic: /depth_camera/points
           data_type: "PointCloud2"
           marking: True
           clearing: True
-          marking: True
           max_obstacle_height: 2.0
+          raytrace_max_range: 5.0
+          raytrace_min_range: 0.05
+          obstacle_max_range: 5.0
+          obstacle_min_range: 0.05
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
+        enabled: True
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        mark_threshold: 0
+        observation_sources: pointcloud_lines
+        pointcloud_lines:
+          topic: /lines
+          data_type: "PointCloud2"
+          marking: True
+          clearing: True
+          max_obstacle_height: 0.25
+          min_obstacle_height: -0.25
           raytrace_max_range: 5.0
           raytrace_min_range: 0.05
           obstacle_max_range: 5.0
@@ -254,6 +274,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.55
+
       always_send_full_costmap: True
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
