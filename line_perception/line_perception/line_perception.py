@@ -7,7 +7,8 @@ import cv2
 import numpy as np
 
 UPPER_BOUND = 255
-LOWER_BOUND = 110
+#LOWER_BOUND = 110 #this changed for some reason
+LOWER_BOUND = 200
 #KERNEL = np.ones((5, 5), np.uint8)
 
 
