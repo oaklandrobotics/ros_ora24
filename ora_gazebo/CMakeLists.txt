@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(ora_description)
+project(ora_gazebo)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -12,7 +12,7 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 install(
-  DIRECTORY src launch rviz config
+  DIRECTORY src launch world
   DESTINATION share/${PROJECT_NAME}
 )
 
