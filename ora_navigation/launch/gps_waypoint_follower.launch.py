@@ -29,6 +29,7 @@ def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory("nav2_bringup")
     gps_wpf_dir = get_package_share_directory("ora_navigation")
+    ora_desc_dir = get_package_share_directory("ora_description")
     lp_dir = get_package_share_directory("line_perception")
     launch_dir = os.path.join(gps_wpf_dir, "launch")
     params_dir = os.path.join(gps_wpf_dir, "config")
@@ -49,7 +50,7 @@ def generate_launch_description():
     )
 
     gazebo_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(launch_dir, "display.launch.py"))
+        PythonLaunchDescriptionSource(os.path.join(ora_desc_dir, 'launch', "display.launch.py"))
     )
 
     robot_localization_cmd = IncludeLaunchDescription(

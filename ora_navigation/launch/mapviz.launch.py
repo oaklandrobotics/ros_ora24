@@ -5,7 +5,7 @@ import launch_ros.actions
 import os
 from ament_index_python.packages import get_package_share_directory
 
-gps_wpf_dir = get_package_share_directory("ora_description")
+gps_wpf_dir = get_package_share_directory("ora_navigation")
 mapviz_config_file = os.path.join(gps_wpf_dir, "config", "gps_wpf_demo.mvc")
 
 def generate_launch_description():

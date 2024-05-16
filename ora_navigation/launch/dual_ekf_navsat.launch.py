@@ -8,7 +8,7 @@ import launch.actions
 
 
 def generate_launch_description():
-    pkg_share = launch_ros.substitutions.FindPackageShare(package='ora_description').find('ora_description')
+    pkg_share = get_package_share_directory('ora_navigation')
     ekf_params = os.path.join(pkg_share, 'config/dual_ekf.yaml')
     navsat_params = os.path.join(pkg_share, 'config/navsat_params.yaml')
 

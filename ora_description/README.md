@@ -4,6 +4,12 @@ URDF files for ORA robots
 
 ## Usage
 
+Build and source the workspace:
+```
+colcon build --symlink-install
+. install/setup.bash
+```
+
 To launch Gazebo and robot description:
 ```
 ros2 launch ora_description display.launch.py

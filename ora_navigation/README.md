@@ -6,6 +6,12 @@ Search TODO to see things that need to be tweaked/modified/fixed/whatever
 
 ## Commands 'n' stuff
 
+Build and source the workspace:
+```
+colcon build --symlink-install
+. install/setup.bash
+```
+
 To make the robot move, spin, etc:
 ```
 ros2 topic pub --once /demo/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
