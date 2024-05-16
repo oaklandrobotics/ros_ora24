@@ -8,9 +8,7 @@ import os
 def generate_launch_description():
     pkg_share = get_package_share_directory('ora_description')
     default_model_path = os.path.join(pkg_share, 'src/description/horizon.urdf')
-    default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz') #this is the default one
-    #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_maps.rviz')
-    #default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config_with_scan.rviz')
+    default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz')
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',

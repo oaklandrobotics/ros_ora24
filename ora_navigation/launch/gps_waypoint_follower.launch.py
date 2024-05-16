@@ -28,7 +28,7 @@ from nav2_common.launch import RewrittenYaml
 def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory("nav2_bringup")
-    gps_wpf_dir = get_package_share_directory("ora_description")
+    gps_wpf_dir = get_package_share_directory("ora_navigation")
     lp_dir = get_package_share_directory("line_perception")
     launch_dir = os.path.join(gps_wpf_dir, "launch")
     params_dir = os.path.join(gps_wpf_dir, "config")
