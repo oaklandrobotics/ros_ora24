@@ -5,7 +5,7 @@ from std_msgs.msg import Float32
 import can
 
 class WheelParser(Node):
-    WHEEL_DIST = 3 #something
+    WHEEL_DIST = 3.0 #something
     
     def __init__(self):
         super().__init__('wheel_parser')
@@ -46,9 +46,22 @@ def send_can_message(self, speed_right, speed_left):
     try:
         # Send the CAN message
         self.bus.send(msg)
-        self.get_logger().info("Sent CAN message: ID=%s, data=%s", msg.arbitration_id, msg.data)
+        self.get_logger().info(f"Sent CAN message: ID={msg.arbitration_id}, data={msg.data}")
     except can.CanError:
         self.get_logger().error("Failed to send CAN message")
+
+def create_can_data(self, speed_right, speed_left):
+    # Create byte array for the CAN message
+    speed_right = int(speed_right * 1000)
+    speed_left = int(speed_left * 1000)
+    
+    # Create byte array
+    data = bytearray()
+    data.extend(speed_right.to_bytes(2, byteorder='little', signed=True))
+    data.extend(speed_left.to_bytes(2, byteorder='little', signed=True))
+    return data
+
+    
         
 def main(args=None):
     rclpy.init(args=args)
