@@ -2,9 +2,10 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float32
+import can
 
 class WheelParser(Node):
-    WHEEL_DIST = 3
+    WHEEL_DIST = 3 #something
     
     def __init__(self):
         super().__init__('wheel_parser')
@@ -19,10 +20,6 @@ class WheelParser(Node):
         # Calculate the desired speed for each wheel
         speed_wish_right = linear + angular * self.WHEEL_DIST / 2
         speed_wish_left = linear - angular * self.WHEEL_DIST / 2
-        
-        # Logging for debugging
-        self.get_logger().info(f"Received cmd_vel: linear={linear}, angular={angular}")
-        self.get_logger().info(f"Publishing wheel speeds: right={speed_wish_right}, left={speed_wish_left}")
         
         # Publish the desired speed for each wheel
         self.right_motor_pub.publish(Float32(data=speed_wish_right))
