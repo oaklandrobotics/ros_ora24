@@ -20,6 +20,10 @@ class WheelParser(Node):
         speed_wish_right = linear + angular * self.WHEEL_DIST / 2
         speed_wish_left = linear - angular * self.WHEEL_DIST / 2
         
+        # Logging for debugging
+        self.get_logger().info(f"Received cmd_vel: linear={linear}, angular={angular}")
+        self.get_logger().info(f"Publishing wheel speeds: right={speed_wish_right}, left={speed_wish_left}")
+        
         # Publish the desired speed for each wheel
         self.right_motor_pub.publish(Float32(data=speed_wish_right))
         self.left_motor_pub.publish(Float32(data=speed_wish_left))
