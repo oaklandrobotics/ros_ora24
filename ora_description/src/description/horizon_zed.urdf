@@ -75,7 +75,9 @@
     <xacro:box_inertia m="15" w="${box_length}" d="${box_height}" h="${box_width}"/>
   </link>
 
-  <xacro:zed_camera name="$(arg camera_name)" model="$(arg camera_model)"/>
+  <xacro:zed_camera name="$(arg camera_name)" model="$(arg camera_model)" enable_gnss="false">
+    <gnss_origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:zed_camera>
 
   <!-- Sensor Tower -->
   <link name="sensor_tower">
