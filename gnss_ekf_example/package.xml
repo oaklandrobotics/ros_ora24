@@ -1,15 +1,26 @@
 <?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>gnss_ekf_example</name>
+  <name>gnss_ekf</name>
   <version>0.0.0</version>
   <description>
-    Example implementation of an extended Kalman filter for fusing wheel speed data with GNSS
+    Extended Kalman filter for fusing wheel speed data with GNSS
   </description>
-  <maintainer email="mtradovn@oakland.edu">Micho Radovnikovich</maintainer>
+  <author email="mtradovn@oakland.edu">Micho Radovnikovich</author>
+  <maintainer email="xyz@TODO.com">TODO</maintainer>
   <license>BSD</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <depend>roscpp</depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
   <depend>tf2_ros</depend>
-  <depend>dynamic_reconfigure</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>gps_tools</depend>
+  <depend>tf2_geometry_msgs</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
