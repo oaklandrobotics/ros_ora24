@@ -11,7 +11,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'odrive_can'],
     zip_safe=True,
     maintainer='Dan',
     maintainer_email='dmocnik@oakland.edu',
@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ora_integration = ora_integration.integration_testing_node:main'
+            'ora_integration = ora_integration.integration_testing_node:main',
+            'wheel_parser = ora_integration.wheel_parser:main'
         ],
     },
 )
