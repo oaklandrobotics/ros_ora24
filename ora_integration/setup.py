@@ -20,8 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ora_integration = ora_integration.integration_testing_node:main',
+            'ora_integration_test = ora_integration.integration_testing_node:main',
             'wheel_parser = ora_integration.wheel_parser:main'
+            'ora_integration = ora_integration.integration_node:main'
         ],
     },
 )
