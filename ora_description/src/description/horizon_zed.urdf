@@ -3,7 +3,6 @@
 <!-- TODO -->
 <!-- update masses in the inertia declarations -->
 <!-- Double-check box_inertia and make sure its correct -->
-<!-- Replace depth camera with actual ZED from SDK later-->
 
 <robot name="horizon_zed" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Constraints -->
@@ -14,39 +13,39 @@
   <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" />
   
 
-  <xacro:property name="box_length" value="${3/3.281}"/>
-  <xacro:property name="box_width" value="${2/3.281}"/>
-  <xacro:property name="box_height" value="${(16/12)/3.281}"/> <!-- 16 in. -->
+  <xacro:property name="box_length" value="${3 / 3.281}"/>
+  <xacro:property name="box_width" value="${2 / 3.281}"/>
+  <xacro:property name="box_height" value="${(16 / 12) / 3.281}"/> <!-- 16 in. -->
 
-  <xacro:property name="tower_length" value="${(37/12)/3.281}"/> <!-- 3 ft + 1 in. for top bar-->
+  <xacro:property name="tower_length" value="${(37 / 12) / 3.281}"/> <!-- 3 ft + 1 in. for top bar-->
 
-  <xacro:property name="wheel_radius" value="${((14.5/12)/2)/3.281}"/> <!-- 14.5 in. diameter -->
-  <xacro:property name="wheel_width" value="${(3.35/12)/3.281}"/>
+  <xacro:property name="wheel_radius" value="${((14.5 / 12) / 2) / 3.281}"/> <!-- 14.5 in. diameter -->
+  <xacro:property name="wheel_width" value="${(3.35 / 12) / 3.281}"/>
 
-  <xacro:property name="front_caster_radius" value="${(2/12)/3.281}"/><!-- 4 in. diameter -->
-  <xacro:property name="rear_caster_radius" value="${(1/12)/3.281}"/><!-- 2 in. diameter -->
+  <xacro:property name="front_caster_radius" value="${(2 / 12) / 3.281}"/><!-- 4 in. diameter -->
+  <xacro:property name="rear_caster_radius" value="${(1 / 12) / 3.281}"/><!-- 2 in. diameter -->
 
   <!-- Intertia property macros  -->
   <xacro:macro name="box_inertia" params="m w h d">
     <inertial>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+      <origin xyz="0 0 0" rpy="${pi / 2} 0 ${pi / 2}"/>
       <mass value="${m}"/>
-      <inertia ixx="${(m/12) * (h*h + d*d)}" ixy="0.0" ixz="0.0" iyy="${(m/12) * (w*w + d*d)}" iyz="0.0" izz="${(m/12) * (w*w + h*h)}"/>
+      <inertia ixx="${(m / 12) * (h * h + d * d)}" ixy="0.0" ixz="0.0" iyy="${(m / 12) * (w * w + d * d)}" iyz="0.0" izz="${(m / 12) * (w * w + h * h)}"/>
     </inertial>
   </xacro:macro>
 
   <xacro:macro name="cylinder_inertia" params="m r h">
     <inertial>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+      <origin xyz="0 0 0" rpy="${pi / 2} 0 0" />
       <mass value="${m}"/>
-      <inertia ixx="${(m/12) * (3*r*r + h*h)}" ixy = "0" ixz = "0" iyy="${(m/12) * (3*r*r + h*h)}" iyz = "0" izz="${(m/2) * (r*r)}"/>
+      <inertia ixx="${(m / 12) * (3 * r * r + h * h)}" ixy = "0" ixz = "0" iyy="${(m / 12) * (3 * r * r + h * h)}" iyz = "0" izz="${(m / 2) * (r * r)}"/>
     </inertial>
   </xacro:macro>
 
   <xacro:macro name="sphere_inertia" params="m r">
     <inertial>
       <mass value="${m}"/>
-      <inertia ixx="${(2/5) * m * (r*r)}" ixy="0.0" ixz="0.0" iyy="${(2/5) * m * (r*r)}" iyz="0.0" izz="${(2/5) * m * (r*r)}"/>
+      <inertia ixx="${(2 / 5) * m * (r * r)}" ixy="0.0" ixz="0.0" iyy="${(2 / 5) * m * (r * r)}" iyz="0.0" izz="${(2 / 5) * m * (r * r)}"/>
     </inertial>
   </xacro:macro>
 
@@ -84,7 +83,7 @@
   <link name="sensor_tower">
     <visual>
       <geometry>
-        <box size="${(1/12)/3.281} ${(1/12)/3.281} ${tower_length}"/>
+        <box size="${(1 / 12) / 3.281} ${(1 / 12) / 3.281} ${tower_length}"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1"/>
@@ -93,7 +92,7 @@
 
     <collision>
       <geometry>
-        <box size="${(1/12)/3.281} ${(1/12)/3.281} ${tower_length}"/>
+        <box size="${(1 / 12) / 3.281} ${(1 / 12) / 3.281} ${tower_length}"/>
       </geometry>
     </collision>
 
@@ -235,7 +234,7 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
-    <origin xyz="0 ${(box_width/2)+(wheel_width/2)} ${-(box_height/6)-0.001}" rpy="${-pi/2} 0 0"/>
+    <origin xyz="0 ${(box_width / 2) + (wheel_width / 2)} ${-(box_height / 6) - 0.001}" rpy="${-pi / 2} 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
@@ -243,7 +242,7 @@
     <parent link="base_link"/>
     <child link="right_wheel"/>
     <!-- Offset wheels slightly so only they are touching the ground -->
-    <origin xyz="0 ${(-box_width/2)+(-wheel_width/2)} ${-(box_height/6)-0.001}" rpy="${-pi/2} 0 0"/>
+    <origin xyz="0 ${(-box_width / 2) + (-wheel_width / 2)} ${-(box_height / 6) - 0.001}" rpy="${-pi / 2} 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
@@ -251,13 +250,13 @@
   <joint name="front_caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="front_caster"/>
-    <origin xyz="${(box_length/2)-front_caster_radius} 0 ${-box_height/2}" rpy="0 0 0"/>
+    <origin xyz="${(box_length / 2) - front_caster_radius} 0 ${-box_height / 2}" rpy="0 0 0"/>
   </joint>
 
   <joint name="rear_caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="rear_caster"/>
-    <origin xyz="${(-box_length/2)+rear_caster_radius} 0 ${-box_height/2}" rpy="0 0 0"/>
+    <origin xyz="${(-box_length / 2) + rear_caster_radius} 0 ${-box_height / 2}" rpy="0 0 0"/>
   </joint>
 
   <!-- IMU Joint -->
@@ -284,21 +283,21 @@
   <joint name="$(arg camera_name)_joint" type="fixed">
     <parent link="base_link"/>
     <child link="$(arg camera_name)_camera_link"/>
-    <origin xyz="${(box_length/2)-((1/12)/3.281)} 0 ${tower_length+(0.022/2)}" rpy="0 ${12*(pi/180)} 0" />
+    <origin xyz="${(box_length / 2) - ((1 / 12) / 3.281)} 0 ${tower_length + (0.022 / 2)}" rpy="0 ${12 * (pi / 180)} 0" />
   </joint>
   
   <!-- GPS Joint -->
   <joint name="gps_joint" type="fixed">
     <parent link="base_link"/>
     <child link="gps_link"/>
-    <origin xyz="0 0 ${box_height/2}"/>
+    <origin xyz="0 0 ${box_height / 2}"/>
   </joint>
 
   <!-- Sensor Tower Joint -->
   <joint name="sensor_tower_joint" type="fixed">
     <parent link="base_link"/>
     <child link="sensor_tower"/>
-    <origin xyz="${(box_length/2)-((1/12)/3.281)} 0 ${(tower_length/2)+(box_height/2)-((8/12)/3.281)}" rpy="0 0 0"/>
+    <origin xyz="${(box_length / 2) - ((1 / 12) / 3.281)} 0 ${(tower_length 2 ) + (box_height / 2) - ((8 / 12) / 3.281)}" rpy="0 0 0"/>
   </joint>
 
   <!-- Robot Base Joint -->
@@ -390,8 +389,8 @@
       <right_joint>right_wheel_joint</right_joint>
 
       <!-- kinematics -->
-      <wheel_separation>0.45</wheel_separation>
-      <wheel_diameter>0.2</wheel_diameter>
+      <wheel_separation>${box_width + ((2 / 12) / 3.281)}</wheel_separation>
+      <wheel_diameter>${wheel_radius * 2}</wheel_diameter>
 
       <!-- limits -->
       <max_wheel_torque>50</max_wheel_torque>
