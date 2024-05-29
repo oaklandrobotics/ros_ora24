@@ -1,0 +1,9 @@
+height: 16in
+length: 3ft
+width:  2ft
+
+sensor tower: 3ft + 1in for top bar
+bottom of tower: 8 in from top
+
+wheel diameter: 14.5in
+wheel width: 3.35 in
