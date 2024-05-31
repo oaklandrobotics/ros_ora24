@@ -903,6 +903,7 @@ public:
     }
 
     RCLCPP_DEBUG(get_logger(), "rtcm_callback msg.message: 0x%s", oss.str().c_str());
+    //RCLCPP_WARN(get_logger(), "rtcm_callback msg.message: 0x%s", oss.str().c_str());
 
     usbc_->write_buffer(data_out.data(), data_out.size());
   }

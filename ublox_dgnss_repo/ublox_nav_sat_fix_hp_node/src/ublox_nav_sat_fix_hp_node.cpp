@@ -47,7 +47,7 @@ public:
     auto qos = rclcpp::SensorDataQoS();
 
     // Create publishers
-    nav_sat_fix_pub_ = this->create_publisher<sensor_msgs::msg::NavSatFix>("fix", qos);
+    nav_sat_fix_pub_ = this->create_publisher<sensor_msgs::msg::NavSatFix>("fix", 1);
 
     // Create subscribers
     ubx_nav_hp_pos_llh_sub_ = this->create_subscription<ublox_ubx_msgs::msg::UBXNavHPPosLLH>(
