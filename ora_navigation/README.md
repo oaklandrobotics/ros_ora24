@@ -42,6 +42,11 @@ To launch mapviz:
 ros2 launch ora_navigation mapviz.launch.py
 ```
 
+To launch the GPS driver:
+```
+ros2 run ublox_gps ublox_gps_node --ros-args --params-file ~/ros2_ws/src/ora_navigation/config/gps.yaml
+```
+
 ## Resources
 
 - https://navigation.ros.org/setup_guides/index.html
