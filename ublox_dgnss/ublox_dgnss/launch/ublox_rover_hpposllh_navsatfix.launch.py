@@ -13,7 +13,7 @@ def generate_launch_description():
             {'CFG_MSGOUT_UBX_NAV_STATUS_USB': 5},
             {'CFG_MSGOUT_UBX_NAV_COV_USB': 1},
             {'CFG_MSGOUT_UBX_RXM_RTCM_USB': 1},
-            {'CFG_UART1INPROT_RTCM3X': True}
+            {'CFG_UART1INPROT_RTCM3X': True}]
 
   container1 = ComposableNodeContainer(
     name='ublox_dgnss_container',
