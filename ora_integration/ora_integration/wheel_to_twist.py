@@ -1,7 +1,8 @@
 import rclpy
 import message_filters
 from rclpy.node import Node
-from odrive_can.msg import ControllerStatus
+#from odrive_can.msg import ControllerStatus
+from std_msgs.msg import Float32
 from geometry_msgs.msg import TwistStamped
 
 WHEEL_DIST = 28 / 39.37
@@ -10,15 +11,15 @@ WHEEL_RADIUS = WHEEL_DIA / 2
 
 class TwistParser(Node):
     def __init__(self):
-        super().__init__('twist_parser')
-        self.wheel_r_sub = message_filters.Subscriber(self, ControllerStatus, 'right/controller_status')
-        self.wheel_l_sub = message_filters.Subscriber(self, ControllerStatus, 'left/controller_status')
+        super().__init__('wheel_to_twist')
+        self.wheel_r_sub = message_filters.Subscriber(self, Float32, 'wheels/right/encoder')
+        self.wheel_l_sub = message_filters.Subscriber(self, Float32, 'wheels/left/encoder')
         self.twist_pub = self.create_publisher(TwistStamped, 'twist', 10)
         self.ts = message_filters.ApproximateTimeSynchronizer((self.wheel_r_sub, self.wheel_l_sub), 10, slop=0.1, allow_headerless=True) #is there a better way to do this?
         self.ts.registerCallback(self.twist_callback)
-        self.get_logger().info('Hello from twist_parser')
+        self.get_logger().info('Hello from wheel_to_twist')
 
-    def twist_callback(self, wheel_r: ControllerStatus, wheel_l: ControllerStatus):
+    def twist_callback(self, wheel_r: Float32, wheel_l: Float32):
         twist = TwistStamped()
         twist.header.stamp = self.get_clock().now().to_msg()
 

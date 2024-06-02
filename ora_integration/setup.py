@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'ora_integration'
 
@@ -10,6 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('scripts', package_name), glob('scripts/*.sh'))
     ],
     install_requires=['setuptools', 'odrive_can'],
     zip_safe=True,
@@ -21,8 +24,9 @@ setup(
     entry_points={
         'console_scripts': [
             'ora_integration_test = ora_integration.integration_testing_node:main',
-            'wheel_parser = ora_integration.wheel_parser:main'
-            'ora_integration = ora_integration.integration_node:main'
+            'ora_integration = ora_integration.integration_node:main',
+            'twist_to_wheel = ora_integration.twist_to_wheel:main',
+            'wheel_to_twist = ora_integration.wheel_to_twist:main',
         ],
     },
 )

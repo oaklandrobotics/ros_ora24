@@ -10,7 +10,7 @@
   <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>odrive_can</exec_depend>
-  <!-- Does this need to be here? <exec_depend>python-can</exec_depend> -->
+  <exec_depend>can-utils</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
