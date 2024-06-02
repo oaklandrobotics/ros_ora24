@@ -283,7 +283,7 @@
   <joint name="$(arg camera_name)_joint" type="fixed">
     <parent link="base_link"/>
     <child link="$(arg camera_name)_camera_link"/>
-    <origin xyz="${(box_length / 2) - ((1 / 12) / 3.281)} 0 ${tower_length + (0.022 / 2)}" rpy="0 ${12 * (pi / 180)} 0" />
+    <origin xyz="${(-(14 / 12) / 3.281)} 0 ${((49 / 12) / 3.281)}" rpy="0 ${40 * (pi / 180)} 0" />
   </joint>
   
   <!-- GPS Joint -->
@@ -297,7 +297,7 @@
   <joint name="sensor_tower_joint" type="fixed">
     <parent link="base_link"/>
     <child link="sensor_tower"/>
-    <origin xyz="${(box_length / 2) - ((1 / 12) / 3.281)} 0 ${(tower_length 2 ) + (box_height / 2) - ((8 / 12) / 3.281)}" rpy="0 0 0"/>
+    <origin xyz="${(box_length / 2) - ((1 / 12) / 3.281)} 0 ${(tower_length / 2) + (box_height / 2) - ((8 / 12) / 3.281)}" rpy="0 0 0"/>
   </joint>
 
   <!-- Robot Base Joint -->
